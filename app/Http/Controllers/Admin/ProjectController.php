@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\User;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Doctrine\DBAL\Schema\View;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\Storage;
-// use Illuminate\Support\Facades\Auth;
+
 
 class ProjectController extends Controller
 {
@@ -20,7 +22,14 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::paginate(3);
+        $user = Auth::user();
+        if($user->is_admin){
+            $projects = Project::paginate(3);
+        }
+        else {
+            $projects = Project::where('user_id', $user->id)->paginate(3);
+        }
+
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -45,6 +54,7 @@ class ProjectController extends Controller
         $data = $request->validated();
         $slug = Str::slug($request->title, '-');
         $data['slug'] = $slug;
+        $data['user_id'] = Auth::id();
         $project = Project::create($data);
 
         return redirect()->route('admin.projects.show', $project->slug);
@@ -58,6 +68,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        if(!Auth::user()->is_admin && $project->user_id !== Auth::id()){
+            abort(403);
+        }
         return view('admin.projects.show', compact('project'));
     }
 
@@ -69,6 +82,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        if(!Auth::user()->is_admin && $project->user_id !== Auth::id()){
+            abort(403);
+        }
         return view('admin.projects.edit', compact('project'));
     }
 
