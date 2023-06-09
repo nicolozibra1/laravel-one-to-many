@@ -30,7 +30,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create', compact('types'));
+        return view('admin.types.create');
     }
 
     /**
