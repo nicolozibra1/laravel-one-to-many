@@ -41,6 +41,12 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{route('admin.types.index')}}">
+            <i class="fa-solid fa-tags"></i>
+            <span>Types</span>
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="">
             <i class="fa-solid fa-tags"></i>
             <span>Tags</span>
