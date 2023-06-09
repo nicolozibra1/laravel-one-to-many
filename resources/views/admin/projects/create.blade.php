@@ -11,6 +11,17 @@
                 <div class="invalid-feedback">{{$message}}</div>
             @enderror
         </div>
+        <div class="mb-3 d-flex flex-column">
+            <label for="type">Type</label>
+            <select name="type" id="type" class="py-2">
+                @foreach ($types as $type )
+                    <option value="{{$type->id}}">{{$type->name}}</option>
+                @endforeach
+            </select>
+            @error('type')
+                <div class="invalid-feedback">{{$message}}</div>
+            @enderror
+        </div>
         <div class="mb-3">
             <label for="image">Image url</label>
             <input type="text" name="image" id="image" class="form-control @error('image') is-invalid @enderror">

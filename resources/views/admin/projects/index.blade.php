@@ -15,6 +15,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Title</th>
+                <th scope="col">Type</th>
                 <th scope="col">Image</th>
                 <th scope="col">Created</th>
                 <th scope="col">Actions</th>
@@ -25,6 +26,11 @@
                 <tr>
                     <th scope="row">{{ $project->id }}</th>
                     <td>{{ $project->title }}</td>
+                    <td>
+                        @if($project->type_id)
+                            {{ $project->type->name }}
+                        @endif
+                    </td>
                     <td><img class="img-thumbnail" style="width:100px" src="{{ $project->image }}" alt="{{ $project->title }}">
                     </td>
                     <td>{{$project->user->name}} {{ $project->created_at }}</td>
